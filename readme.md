@@ -241,6 +241,15 @@ curl -i -X POST http://localhost:8080/api/posts/3/duplicate -H "X-Internal-Error
 curl -i -X POST http://localhost:8080/api/posts/3/duplicate -H "X-Service-Unavailable: true"
 ```
 
+### 오류 응답 테스트 조건
+
+오류 상태 코드 테스트를 위해 다음과 같은 테스트 조건을 사용했습니다.
+
+- 400 Bad Request: 제목을 빈 문자열로 전달하여 입력값 검증 오류 발생
+- 404 Not Found: 존재하지 않는 게시글 ID를 요청하여 발생
+- 500 Internal Server Error: `X-Internal-Error: true` 헤더를 전달하여 테스트용 서버 오류 발생
+- 503 Service Unavailable: `X-Service-Unavailable: true` 헤더를 전달하여 테스트용 서비스 이용 불가 오류 발생
+
 ## 10. 실행 방법
 
 Spring Boot 애플리케이션을 실행한 후 다음 주소를 사용할 수 있습니다.
