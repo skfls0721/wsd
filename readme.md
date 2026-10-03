@@ -96,7 +96,9 @@ Spring Boot와 Spring Data JPA를 사용하여 게시글 CRUD REST API를 구현
 
 ## 4. 공통 응답 형식
 
-모든 API의 응답 형식을 다음과 같이 통일했습니다.
+응답 body가 있는 API의 응답 형식을 다음과 같이 통일했습니다.
+
+DELETE 성공 시에는 HTTP 204 No Content를 사용하므로 응답 body가 없습니다.
 
 성공 응답:
 
@@ -122,8 +124,9 @@ Spring Boot와 Spring Data JPA를 사용하여 게시글 CRUD REST API를 구현
 
 ### 2xx
 
-* 200 OK : 조회, 수정, 삭제 성공
+* 200 OK : 게시글 조회 및 수정 성공
 * 201 Created : 게시글 생성 및 복제 성공
+* 204 No Content : 게시글 삭제 성공
 
 ### 4xx
 
@@ -208,14 +211,16 @@ curl -X PUT http://localhost:8080/api/posts/1/title -H "Content-Type: applicatio
 게시글 삭제:
 
 ```bash
-curl -X DELETE http://localhost:8080/api/posts/1
+curl -i -X DELETE http://localhost:8080/api/posts/1
 ```
 
 전체 게시글 삭제:
 
 ```bash
-curl -X DELETE http://localhost:8080/api/posts
+curl -i -X DELETE http://localhost:8080/api/posts
 ```
+
+게시글 삭제 성공 시 `204 No Content`가 반환되며 응답 body는 없습니다.
 
 400 Bad Request 테스트:
 
@@ -245,10 +250,10 @@ curl -i -X POST http://localhost:8080/api/posts/3/duplicate -H "X-Service-Unavai
 
 오류 상태 코드 테스트를 위해 다음과 같은 테스트 조건을 사용했습니다.
 
-- 400 Bad Request: 제목을 빈 문자열로 전달하여 입력값 검증 오류 발생
-- 404 Not Found: 존재하지 않는 게시글 ID를 요청하여 발생
-- 500 Internal Server Error: `X-Internal-Error: true` 헤더를 전달하여 테스트용 서버 오류 발생
-- 503 Service Unavailable: `X-Service-Unavailable: true` 헤더를 전달하여 테스트용 서비스 이용 불가 오류 발생
+* 400 Bad Request: 제목을 빈 문자열로 전달하여 입력값 검증 오류 발생
+* 404 Not Found: 존재하지 않는 게시글 ID를 요청하여 발생
+* 500 Internal Server Error: `X-Internal-Error: true` 헤더를 전달하여 테스트용 서버 오류 발생
+* 503 Service Unavailable: `X-Service-Unavailable: true` 헤더를 전달하여 테스트용 서비스 이용 불가 오류 발생
 
 ## 10. 실행 방법
 

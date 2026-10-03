@@ -102,18 +102,16 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePost(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(
             @PathVariable Long id
     ) {
         postService.deletePost(id);
-
-        return ApiResponse.success(null);
     }
 
     @DeleteMapping
-    public ApiResponse<Void> deleteAllPosts() {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAllPosts() {
         postService.deleteAllPosts();
-
-        return ApiResponse.success(null);
     }
 }
